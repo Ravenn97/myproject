@@ -7,7 +7,15 @@ class Database():
 	def __init__(self):
 		pass
 
-
+	def select(self):
+		con = Database.connect
+		cur = con.cursor()
+		try:
+			cur.execute("SELECT * FROM users")
+			con.commit()
+			return cur.fetchall()
+		except:
+			return None
 
 	def add(self,data):
 		con = Database.connect
@@ -35,20 +43,21 @@ class Database():
 			cur.close()
 			con.close()
 
-	def delete(self,id):
+	def delete(self, Id):
 		con = Database.connect
 		cur = con.cursor()
 		try:
-			cursor.execute("DELETE FROM `users` WHERE `users`.`Id` = %s" %id)
+			cur.execute("DELETE FROM users WHERE Id = %s" % Id)
 			con.commit()
 			return "xoa thanh cong"
-		except:
-			return "khong the xoa"
+		except Exception as e:
+			return e
+			# return "khong the xoa"
 		finally:
 			cur.close()
 			con.close()
 
-	def close(self):
+	def close():
 		try:
 			if self.cursor == self.con:
 				self.con.close()
@@ -77,18 +86,3 @@ class Database():
 
 
 
-def insertUser(username,password):
-
-    db = sql.connect("localhost","root","dotung","loginDB" )
-    cur = con.cursor()
-    cur.execute("INSERT INTO users (username,password) VALUES (?,?)", (username,password))
-    con.commit()
-    con.close()
-
-def retrieveUsers():
-	con = sql.connect("database.db")
-	cur = con.cursor()
-	cur.execute("SELECT username, password FROM users")
-	users = cur.fetchall()
-	con.close()
-	return users
