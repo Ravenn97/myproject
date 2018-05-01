@@ -10,8 +10,7 @@ def scheduleCron():
 	data = db.select()
 	for row in data:
 		my_cron = CronTab(user='van-xa')
-		my_cron.remove_all()
-		'''print(len(my_cron))
+		print(len(my_cron))
 		print("\n")
 
 		command = "python3 /home/van-xa/Desktop/my_project/printjob.py {} {} >> /home/van-xa/Desktop/abc.txt".format(row[0], row[1])
@@ -22,7 +21,7 @@ def scheduleCron():
 			job.minute.every(row[1])
 			my_cron.write()
 		except Exception as e:
-			print(e)'''
+			print(e)
 
 
 @app.route('/add', methods=['POST', 'GET'])
