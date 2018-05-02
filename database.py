@@ -26,9 +26,6 @@ class Database():
 			return "add thanh cong"
 		except:
 			return "khong the add"
-		finally:
-			cur.close()
-			con.close()
 
 	def update(self, data):
 		con = Database.connect
@@ -39,9 +36,6 @@ class Database():
 			return "update thanh cong"
 		except:
 			return "khong the update"
-		finally:
-			cur.close()
-			con.close()
 
 	def delete(self, Id):
 		con = Database.connect
@@ -52,18 +46,8 @@ class Database():
 			return "xoa thanh cong"
 		except Exception as e:
 			return e
-			# return "khong the xoa"
-		finally:
-			cur.close()
-			con.close()
 
-	def close():
-		try:
-			if self.cursor == self.con:
-				self.con.close()
-				self.cursor.close()
-		except:
-			pass
+	
 
 
 

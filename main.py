@@ -10,12 +10,9 @@ def scheduleCron():
 	data = db.select()
 	for row in data:
 		my_cron = CronTab(user='van-xa')
-		print(len(my_cron))
-		print("\n")
-
-		command = "python3 /home/van-xa/Desktop/my_project/printjob.py {} {} >> /home/van-xa/Desktop/abc.txt".format(row[0], row[1])
+		print(type(row[1]), len(my_cron))
+		command = "python3 printjob.py {} {} >> abc.txt".format(row[0], row[1])
 		comment = str(row[0])
-		print(comment)
 		try:
 			job = my_cron.new(command= command, comment = comment)
 			job.minute.every(row[1])
@@ -28,17 +25,16 @@ def scheduleCron():
 def add_id():
 	if request.method=='POST':
 		data = (request.form['id'],request.form["time_sleep"])
-		print(data, len(data), type(data))
-		my_cron = []
+		print(data[1], type(data[1]))
 		db = Database()
 		a = db.add(data)
-		my_cron = CronTab(user='van-xa')
-		command = "python3 /home/van-xa/Desktop/my_project/printjob.py " + data[0] + data[1] + " >> /home/van-xa/Desktop/abc.txt"
+		my_cron = CronTab(user = 'van-xa')
+		command = "python3 printjob.py {} {} >> add.txt".format(data[0], data[1])
 		comment = data[0]
-		print (comment, type(comment))
-
-		job = my_cron.new(command= command, comment = comment)
-		job.minute.every(int(data[1]))
+		time_sleep = int(data[1])
+		print(comment, type(comment))
+		job = my_cron.new(command = command, comment = comment)
+		job.minute.every(time_sleep)
 		my_cron.write()
 		return a
 
@@ -55,10 +51,11 @@ def update():
 		for job in my_cron:
 			if job.comment == data[0]:
 				my_cron.remove(job)
-				command = "python3 /home/van-xa/Desktop/my_project/printjob.py {} {} >> /home/van-xa/Desktop/abc.txt".format(data[0], data[1])
+				command = "python3 printjob.py {} {} >> abcd.txt".format(data[0], data[1])
 				comment = str(data[0])
+				time_sleep = int(data[1])
 				job = my_cron.new(command= command, comment = comment)
-				job.minute.every(data[1])
+				job.minute.every(time_sleep)
 				my_cron.write()
 		return a
 
@@ -75,6 +72,7 @@ def delete():
 		for job in my_cron:
 			if job.comment == str(Id):
 				my_cron.remove(job)
+				my_cron.write()
 		return a
 
 	
